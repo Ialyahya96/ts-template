@@ -18,6 +18,7 @@
     "format:cspell": "cspell **/*",
     "knip": "knip --config .github/knip.ts",
     "knip-ci": "knip --no-exit-code --reporter json --config .github/knip.ts",
+    "size:report": "bun scripts/file-size-report.ts",
     "test": "jest --setupFiles dotenv/config --coverage",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
