@@ -11,7 +11,7 @@ export default tsEslint.config({
     "check-file": checkFile,
     "@ubiquity-os": noEmptyStrings,
   },
-  ignores: ["**/*.js", ".github/**.ts"],
+  ignores: ["**/*.js", ".github/**.ts", "eslint.config.mjs"],
   extends: [eslint.configs.recommended, ...tsEslint.configs.recommended, sonarjs.configs.recommended],
   languageOptions: {
     parser: tsEslint.parser,
@@ -59,6 +59,10 @@ export default tsEslint.config({
     "sonarjs/no-element-overwrite": "error",
     "sonarjs/no-identical-conditions": "error",
     "sonarjs/no-identical-expressions": "error",
+    "sonarjs/cognitive-complexity": ["error", 15],
+    "sonarjs/sonar-max-lines": "off",
+    "sonarjs/sonar-max-lines-per-function": "off",
+    "sonarjs/cyclomatic-complexity": "off",
     "@typescript-eslint/naming-convention": [
       "error",
       {
@@ -108,4 +112,29 @@ export default tsEslint.config({
       },
     ],
   },
-});
+},
+  // File-size policy (see AGENTS.md); lint enforcement for the review thresholds.
+  {
+    files: ["**/*.{ts,tsx,mts,cts}"],
+    ignores: [".github/**"],
+    rules: {
+      "max-lines": ["error", { max: 1000, skipBlankLines: false, skipComments: false }],
+      "max-lines-per-function": ["error", { max: 120, skipBlankLines: true, skipComments: true, IIFEs: true }],
+      complexity: "off",
+      "max-statements": "off",
+    },
+  },
+  {
+    files: ["**/*.tsx"],
+    rules: {
+      "max-lines-per-function": ["error", { max: 200, skipBlankLines: true, skipComments: true, IIFEs: true }],
+    },
+  },
+  {
+    files: ["**/*.{test,spec}.{ts,tsx,mts,cts}", "**/{test,tests,__tests__}/**/*.{ts,tsx,mts,cts}"],
+    rules: {
+      "max-lines": ["error", { max: 1500, skipBlankLines: false, skipComments: false }],
+      "max-lines-per-function": "off",
+    },
+  },
+);
